@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "kcnetwork",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/hrayatnia/KCNetwork",
+      "state" : {
+        "revision" : "5c60f017f3bd445c5e7888b024dd74bf01097df7",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "kctestutil",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/hrayatnia/KCTestUtil",
+      "state" : {
+        "revision" : "1714bb6a3d01e9a8af2d3ad71d586e37234ed1be",
+        "version" : "1.0.2"
+      }
+    }
+  ],
+  "version" : 2
+}
