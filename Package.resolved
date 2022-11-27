@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/hrayatnia/KCNetwork",
       "state" : {
-        "revision" : "5c60f017f3bd445c5e7888b024dd74bf01097df7",
-        "version" : "1.0.0"
+        "revision" : "8ef080ebef212560e776cea9f571c3f54c256d8b",
+        "version" : "1.0.1"
       }
     },
     {

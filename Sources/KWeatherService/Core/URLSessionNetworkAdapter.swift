@@ -1,7 +1,8 @@
 import Foundation
 import KCNetwork
 
-struct URLSessionNetworkAdapter: NetworkAdapter {
+final class URLSessionNetworkAdapter: NetworkAdapter {
+    private var task: URLSessionTask?
     func run<Response>(request: Request) async -> Result<Response,
                                                          Error> where Response : Decodable {
         await withCheckedContinuation({ continuation in
@@ -16,7 +17,7 @@ struct URLSessionNetworkAdapter: NetworkAdapter {
                                             Error>) -> ()) where Response : Decodable {
         
         let session = NetworkSetting.session
-        session.dataTask(with: request as URLRequest) {(data, res, error) in
+        task = session.dataTask(with: request as URLRequest) { [unowned self] (data, res, error) in
             guard let res = res as? HTTPURLResponse,
                   NetworkSetting.validStatusCode.contains(res.statusCode) else {
                       response(.failure(URLError.dataNotAllowed as! Error))
@@ -36,6 +37,8 @@ struct URLSessionNetworkAdapter: NetworkAdapter {
             }catch {
                 response(.failure(error))
             }
-        }.resume()
+            self.task?.cancel()
+        }
+        task?.resume()
     }
 }
