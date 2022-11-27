@@ -5,7 +5,9 @@ import Network
 struct NetworkSetting {
     static var networkDecoder: JSONDecoder = {
         let jsonDecoder = JSONDecoder()
-        jsonDecoder.allowsJSON5 = true
+        if #available(iOS 15.0, *) {
+            jsonDecoder.allowsJSON5 = true
+        }
         jsonDecoder.dateDecodingStrategy = .iso8601
         return jsonDecoder
     }()
