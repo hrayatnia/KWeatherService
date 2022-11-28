@@ -57,31 +57,31 @@ public struct IntervalValues: Codable {
 
 #if DEBUG
 
-extension WeatherResponse {
+public extension WeatherResponse {
     static func mock() -> Self {
         .init(data: .mock())
     }
 }
 
-extension Timelines {
+public extension Timelines {
     static func mock() -> Self {
         .init(timelines: (0...6).map { .mock("\($0)")})
     }
 }
 
-extension TimelineItem {
+public extension TimelineItem {
     static func mock(_ step: String) -> Self {
         .init(timestep: step, endTime: Date(), startTime: Date(), intervals: (0...6).map {_ in .mock()})
     }
 }
 
-extension Interval {
+public extension Interval {
     static func mock() -> Self {
         .init(startTime: Date(), values: .mock())
     }
 }
 
-extension IntervalValues {
+public extension IntervalValues {
     static func mock() -> Self {
         .init(temperature: 14.0, weatherCode: 1001)
     }

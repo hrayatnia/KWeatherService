@@ -37,7 +37,6 @@ final class URLSessionNetworkAdapter: NetworkAdapter {
             }catch {
                 response(.failure(error))
             }
-            self.task?.cancel()
         }
         task?.resume()
     }
