@@ -20,7 +20,7 @@ final class URLSessionNetworkAdapter: NetworkAdapter {
         task = session.dataTask(with: request as URLRequest) { [unowned self] (data, res, error) in
             guard let res = res as? HTTPURLResponse,
                   NetworkSetting.validStatusCode.contains(res.statusCode) else {
-                      response(.failure(URLError.dataNotAllowed as! Error))
+                      response(.failure((URLError.dataNotAllowed as? Error) ?? NSError()))
                       return
                   }
             if let error = error {
