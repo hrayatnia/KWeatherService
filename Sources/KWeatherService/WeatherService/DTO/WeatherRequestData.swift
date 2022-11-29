@@ -8,6 +8,8 @@ public enum WeatherUnitSystem: String {
 public enum WeatherFields: String {
     case temperature = "temperature"
     case weatherCode = "weatherCode"
+    case sunrise = "sunriseTime"
+    case sunset = "sunsetTime"
 }
 
 public enum WeatherRequestTimestamps: String {

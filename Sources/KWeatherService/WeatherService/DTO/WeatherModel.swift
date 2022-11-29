@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - Weather Response
 public struct WeatherResponse: Decodable {
-    let data: Timelines
+    public let data: Timelines
     
     public init(data: Timelines) {
         self.data = data
@@ -11,7 +11,7 @@ public struct WeatherResponse: Decodable {
 
 // MARK: - weather timeline
 public struct Timelines: Decodable {
-    let timelines: [TimelineItem]
+    public let timelines: [TimelineItem]
     
     public init(timelines: [TimelineItem]) {
         self.timelines = timelines
@@ -20,9 +20,9 @@ public struct Timelines: Decodable {
 
 // MARK: - weather timeline item
 public struct TimelineItem: Decodable {
-    let timestep: String
-    let endTime, startTime: Date
-    let intervals: [Interval]
+    public let timestep: String
+    public let endTime, startTime: Date
+    public let intervals: [Interval]
     
     public init(timestep: String, endTime: Date, startTime: Date, intervals: [Interval]) {
         self.timestep = timestep
@@ -34,8 +34,8 @@ public struct TimelineItem: Decodable {
 
 // MARK: - weather timeline item Interval
 public struct Interval: Codable {
-    let startTime: Date
-    let values: IntervalValues
+    public let startTime: Date
+    public let values: IntervalValues
     
     public init(startTime: Date, values: IntervalValues) {
         self.startTime = startTime
@@ -45,12 +45,23 @@ public struct Interval: Codable {
 
 // MARK: - Interval Values
 public struct IntervalValues: Codable {
-    let temperature: Double
-    let weatherCode: Int
+    public let temperature: Double?
+    public let weatherCode: Int?
+    public let sunriseTime: Date?
+    public let sunsetTime: Date?
     
-    public init(temperature: Double, weatherCode: Int) {
+    public init(temperature: Double, weatherCode: Int, sunriseTime: Date, sunsetTime: Date) {
         self.temperature = temperature
         self.weatherCode = weatherCode
+        self.sunsetTime = sunsetTime
+        self.sunriseTime = sunriseTime
+    }
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        temperature = try? values.decodeIfPresent(Double.self, forKey: .temperature)
+        weatherCode = try? values.decodeIfPresent(Int.self, forKey: .weatherCode)
+        sunriseTime = try? values.decodeIfPresent(Date.self, forKey: .sunriseTime)
+        sunsetTime = try? values.decodeIfPresent(Date.self, forKey: .sunsetTime)
     }
 }
 
@@ -83,7 +94,7 @@ public extension Interval {
 
 public extension IntervalValues {
     static func mock() -> Self {
-        .init(temperature: 14.0, weatherCode: 1001)
+        .init(temperature: 14.0, weatherCode: 1001, sunriseTime: Date(), sunsetTime: Date())
     }
 }
 
