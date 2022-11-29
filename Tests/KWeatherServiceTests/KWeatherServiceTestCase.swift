@@ -18,6 +18,7 @@ final class KWeatherServiceTestCase: XCIntegrationTestCase {
         let exp = expectation(description: "waiting for network call ...")
         
         DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + NetworkTimeout.default.rawValue - 1, execute: {
+            print(self.service.result)
             XCTAssertNotNil(self.service.result)
             exp.fulfill()
         })
