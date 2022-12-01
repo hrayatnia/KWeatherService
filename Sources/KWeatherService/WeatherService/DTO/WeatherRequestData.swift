@@ -29,7 +29,7 @@ struct WeatherRequestData {
     let endTime: String
     
     func queryParam() -> [URLQueryItem] {
-        ([("location","\(location.long),\(location.lat)"),
+        ([("location","\(location.lat),\(location.long)"),
          ("units", unit.rawValue),
          ("timesteps", timesteps.rawValue),
          ("startTime", startTime),
