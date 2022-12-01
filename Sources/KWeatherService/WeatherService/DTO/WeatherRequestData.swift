@@ -30,7 +30,7 @@ struct WeatherRequestData {
     
     func queryParam() -> [URLQueryItem] {
         ([("location","\(location.long),\(location.lat)"),
-         ("unit", unit.rawValue),
+         ("units", unit.rawValue),
          ("timesteps", timesteps.rawValue),
          ("startTime", startTime),
           ("endTime", endTime + range)] + fields.map { ("fields", $0.rawValue)})
