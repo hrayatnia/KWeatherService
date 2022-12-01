@@ -9,7 +9,7 @@ public struct APISetting {
         return "https://api.tomorrow.io/"
     }
     
-    public func set(secretKey: String) {
+    public static func set(secretKey: String) {
         APISetting.secretKey = secretKey
     }
 }
