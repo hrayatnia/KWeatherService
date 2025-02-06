@@ -1,16 +1,45 @@
 import Foundation
+import SNetwork
 
+@available(iOS 16.0, *)
 public struct APISetting {
-    internal static var secretKey = "Ooboq8AD5JmwnkBpaVcr1Vy5PYewr0RI"
-    internal static var path: String {
-        #if DEBUG
-        return "https://api.tomorrow.io/"
-        #endif
-        return "https://api.tomorrow.io/"
+    private var secretKey: String
+    
+    
+    private var setting: RestSettings<JSONDecoder> {
+        .init(baseURL: URL(string: "https://api.tomorrow.io")!)
+        
     }
     
-    public static func set(secretKey: String) {
-        APISetting.secretKey = secretKey
+    private var globalSession: NetworkSession {
+        let session: NetworkSession = .init(configuration: NetworkConfiguration(type: .default))
+        session.set(headers)
+        return session
     }
+    
+    private var headers: RestNetworkHeader {
+        var header = RestNetworkHeader()
+        header.headers["X-API-Key"] = secretKey
+        return header
+    }
+    
+    public mutating func set(secretKey: String) {
+        self.secretKey = secretKey
+        
+    }
+    
+    public init (secretKey: String = "") {
+        self.secretKey = secretKey
+        registerServices()
+    }
+    
+    
+    private func registerServices() {
+        NetworkSessionContainerRegistry.shared.register(WeatherService.self, globalSession)
+        NetworkSettingsContainerRegistry.shared.register(WeatherService.self, setting)
+    }
+    
 }
+
+
 

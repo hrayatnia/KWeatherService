@@ -19,7 +19,7 @@ public enum WeatherRequestTimestamps: String {
 }
 
 
-struct WeatherRequestData {
+public struct WeatherRequestData: Sendable {
     let location: (long: Double,lat: Double)
     let fields: [WeatherFields]
     let unit: WeatherUnitSystem

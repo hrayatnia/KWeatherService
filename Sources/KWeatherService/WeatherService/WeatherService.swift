@@ -1,40 +1,31 @@
 import Foundation
-import KCNetwork
+import SNetwork
 
-public final class WeatherService: AuthURLSessionHTTPService {
-    public var request: Request {
-        @RequestBuilder(requestable: [
-                        URIPath(Endpoints.timelines.rawValue),
-                        HTTPMethod.GET,
-                        ] + data.queryParam() + authConfig,
-                        wrappedValue: baseURL)
-        var request
-        return request
-    }
-    
+
+public struct WeatherService: RestService {
     public typealias Response = WeatherResponse
     
-    @Published
-    public var result: Result<WeatherService.Response, Error>?
     
-    internal var data: WeatherRequestData
-    
-    public init(long: Double,
-                lat: Double,
-                startDate: String = "now",
-                endDate: String = "now",
-                range: String = "Plus7d",
-                timestep: WeatherRequestTimestamps = .oneDay,
-                unit: WeatherUnitSystem = .metric,
-                fields: WeatherFields...) {
-        data = .init(location: (long,lat),
-                     fields: fields.reversed(),
-                     unit: unit,
-                     timesteps: timestep,
-                     range: range,
-                     startTime: startDate,
-                     endTime: endDate)
+    public var destination: Destination {
+        "".destination()
+            .applying(HTTPMethod.GET)
+            .applying(query.queryParam())
     }
     
+    public var request: String = ""
     
+    private let query: WeatherRequestData
+    
+    public init(query: WeatherRequestData) {
+        self.query = query
+    }
+}
+
+
+extension Array: @retroactive Addressable where Element == URLQueryItem {
+    
+    public func apply(to request: Destination) -> Destination {
+        _ = self.map{ $0.apply(to: request) }
+        return request
+    }
 }
