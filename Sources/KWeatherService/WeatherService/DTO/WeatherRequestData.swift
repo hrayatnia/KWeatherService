@@ -1,39 +1,30 @@
 import Foundation
 
-public enum WeatherUnitSystem: String {
+public enum WeatherUnitSystem: String, Codable, Sendable {
     case metric = "metric"
     case imperial = "imperial"
 }
 
-public enum WeatherFields: String {
+public enum WeatherFields: String, Codable, Sendable {
     case temperature = "temperature"
     case weatherCode = "weatherCode"
     case sunrise = "sunriseTime"
     case sunset = "sunsetTime"
 }
 
-public enum WeatherRequestTimestamps: String {
+public enum WeatherRequestTimestamps:String, Codable, Sendable {
     case oneHour = "1h"
     case oneDay = "1d"
     case oneWeek = "1w"
 }
 
 
-public struct WeatherRequestData: Sendable {
-    let location: (long: Double,lat: Double)
+public struct WeatherRequestData: Encodable, Sendable {
+    let location: String
     let fields: [WeatherFields]
     let unit: WeatherUnitSystem
-    let timesteps: WeatherRequestTimestamps
-    let range: String
+    let timesteps: [WeatherRequestTimestamps]
     let startTime: String
     let endTime: String
     
-    func queryParam() -> [URLQueryItem] {
-        ([("location","\(location.lat),\(location.long)"),
-         ("units", unit.rawValue),
-         ("timesteps", timesteps.rawValue),
-         ("startTime", startTime),
-          ("endTime", endTime + range)] + fields.map { ("fields", $0.rawValue)})
-        .map { URLQueryItem(name: $0.0, value: $0.1) }
-    }
 }

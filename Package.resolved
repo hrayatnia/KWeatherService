@@ -1,4 +1,5 @@
 {
+  "originHash" : "01c2f22292f202ab086bb5467ea66ee3841955bddeeafa3a43bc114ec58b45f5",
   "pins" : [
     {
       "identity" : "kctestutil",
@@ -15,9 +16,9 @@
       "location" : "https://github.com/hrayatnia/SNetwork",
       "state" : {
         "branch" : "develop",
-        "revision" : "49d481a0489c14433f3886339a4468dbc0728537"
+        "revision" : "30c9a295862bc8f9a4f346d4de4e85b78b866bcb"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

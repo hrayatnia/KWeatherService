@@ -1,7 +1,7 @@
 import Foundation
 
 // MARK: - Weather Response
-public struct WeatherResponse: Decodable {
+public struct WeatherResponse: Decodable, Sendable {
     public let data: Timelines
     
     public init(data: Timelines) {
@@ -10,7 +10,7 @@ public struct WeatherResponse: Decodable {
 }
 
 // MARK: - weather timeline
-public struct Timelines: Decodable {
+public struct Timelines: Decodable, Sendable {
     public let timelines: [TimelineItem]
     
     public init(timelines: [TimelineItem]) {
@@ -19,7 +19,7 @@ public struct Timelines: Decodable {
 }
 
 // MARK: - weather timeline item
-public struct TimelineItem: Decodable {
+public struct TimelineItem: Decodable, Sendable {
     public let timestep: String
     public let endTime, startTime: Date
     public let intervals: [Interval]
@@ -33,7 +33,7 @@ public struct TimelineItem: Decodable {
 }
 
 // MARK: - weather timeline item Interval
-public struct Interval: Codable {
+public struct Interval: Codable, Sendable {
     public let startTime: Date
     public let values: IntervalValues
     
@@ -44,7 +44,7 @@ public struct Interval: Codable {
 }
 
 // MARK: - Interval Values
-public struct IntervalValues: Codable {
+public struct IntervalValues: Codable, Sendable {
     public let temperature: Double?
     public let weatherCode: Int?
     public let sunriseTime: Date?

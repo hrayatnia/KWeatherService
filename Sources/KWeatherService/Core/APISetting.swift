@@ -3,11 +3,11 @@ import SNetwork
 
 @available(iOS 16.0, *)
 public struct APISetting {
-    private var secretKey: String
+    private(set) internal var secretKey: String
     
     
     private var setting: RestSettings<JSONDecoder> {
-        .init(baseURL: URL(string: "https://api.tomorrow.io")!)
+        .init(baseURL: URL(string: "https://api.tomorrow.io/v4")!)
         
     }
     

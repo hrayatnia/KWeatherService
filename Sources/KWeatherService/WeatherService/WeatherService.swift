@@ -2,30 +2,46 @@ import Foundation
 import SNetwork
 
 
-public struct WeatherService: RestService {
+public struct WeatherService: RestService, Sendable {
     public typealias Response = WeatherResponse
     
     
     public var destination: Destination {
-        "".destination()
-            .applying(HTTPMethod.GET)
-            .applying(query.queryParam())
+        Endpoints.timelines.rawValue.destination(baseURL)
+            .applying(HTTPMethod.POST)
+            .applying(query)
     }
     
-    public var request: String = ""
+    public var request: WeatherRequestData
     
-    private let query: WeatherRequestData
+    private let query: URLQueryItem
     
-    public init(query: WeatherRequestData) {
-        self.query = query
+    public init(query: String, request: WeatherRequestData) {
+        self.query = URLQueryItem(name: "apikey", value: query)
+        self.request = request
+    }
+    
+    public init(long: Double,
+                lat: Double,
+                query: String,
+                startDate: String = "now",
+                endDate: String = "nowPlus5d",
+                timestep: [WeatherRequestTimestamps] = [.oneDay],
+                unit: WeatherUnitSystem = .metric,
+                fields: WeatherFields...) {
+        self.init(query: query,
+                  request: WeatherRequestData.init(location: "\(long), \(lat)",
+                     fields: fields.reversed(),
+                     unit: unit,
+                     timesteps: timestep,
+                     startTime: startDate,
+                     endTime: endDate))
     }
 }
 
 
-extension Array: @retroactive Addressable where Element == URLQueryItem {
-    
-    public func apply(to request: Destination) -> Destination {
-        _ = self.map{ $0.apply(to: request) }
-        return request
-    }
+
+internal enum Endpoints: String {
+    case timelines = "/timelines"
 }
+
